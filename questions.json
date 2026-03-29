@@ -161,7 +161,7 @@
     "id": "10",
     "type": "multiple",
     "question": "Дана таблица Numbers (на рисунке представлены все записи таблицы) Какой запрос к указанной таблице вернет следующий результат?",
-    "image": "./images/10D.jfif",
+    "image": "./images/10.jfif",
     "options": [
       "SELECT * FROM Numbers n1 FULL JOIN Numbers n2 ON 1=1",
       "SELECT * FROM Numbers n1 INNER JOIN Numbers n2 ON 1=1",
@@ -186,6 +186,7 @@
   {
     "id": "12",
     "type": "drag",
+    "image": "./images/12.jfif",
     "question": "Дана таблица требуется получить результат вида (псевдоним `a` во всех фразах запроса используется раньше `b`)",
     "text": "{1} {2} {3} {4} {5} {6} {7} {8} {9} {10} {11} {12} {13} {14} {15}",
     "words": [
@@ -277,19 +278,1081 @@
   {
     "id": "17",
     "type": "multiple",
-    "image":"./images/17.jfif",
-    "question": "Выберите верные утверждения о данном запросе\nselect *, case\nwhen score is null then `n/a`\nelse score\nend result\nfrom classes",
+    "image": "./images/17.jfif",
+    "question": "Дана таблица Numbers (id:varchar: num1:int: num2:int) вида Какой запрос позволит сформировать результат, содержащий один столбец с полными множеством значений из полей num1 и num2 (восемь записей)?",
     "options": [
-      "Возможность выполнения запроса зависит от типа данных поля score",
-      "Выражение САЅЕ не может использоваться в списке выборки запроса",
-      "Причиной невыполнения запроса может быть несоответствие типов значений, возвращаемых выражением САЅЕ",
-      "Запрос выдаст ошибку времени выполнения, если score числовое поле",
-      "В запросе есть ошибка синтаксиса в записи выражения САЅЕ"
+      "select num1 from numbers\nunion\nselect num2 from numbers",
+      "select num1 num from numbers\nunion all\nselect num2 from numbers",
+      "select num1\nfrom(select * from numbers\nunion all\nselect * from numbers) a",
+      "select case when a.num1 is null\n    then b.num2 else a.num1 end num\nfrom numbers a full join numbers b on 1=2",
+      "select num2 from numbers\nunion all\nselect num1 from numbers"
     ],
     "correct": [
-      "Возможность выполнения запроса зависит от типа данных поля score",
-      "Причиной невыполнения запроса может быть несоответствие типов значений, возвращаемых выражением САЅЕ",
-      "Запрос выдаст ошибку времени выполнения, если score числовое поле"
+      "select num1 num from numbers\nunion all\nselect num2 from numbers",
+      "select case when a.num1 is null\n    then b.num2 else a.num1 end num\nfrom numbers a full join numbers b on 1=2",
+      "select num2 from numbers\nunion all\nselect num1 from numbers"
+    ]
+  },
+  {
+    "id": "18",
+    "type": "multiple",
+    "image": "./images/18.jfif",
+    "question": "Какой запрос позволит получить строки, являющиеся общими для таблиц Numbers1 и Numbers2 следующего вида?",
+    "options": [
+      "select * from numbers1\nintersect\nselect * from numbers2",
+      "select id,num1,num2 from numbers2\nintersect\nselect * from numbers1",
+      "select a.id, a.num1,a.num2 from numbers1 a join numbers2 bon a.id=b.id",
+      "select id,num2,num1 from numbers1\nintersect\nselect id,num1,num2 from numbers2",
+      "select * from numbers1\nexcept\nselect * from numbers2"
+    ],
+    "correct": [
+      "select * from numbers1\nintersect\nselect * from numbers2",
+      "select id,num1,num2 from numbers2\nintersect\nselect * from numbers1"
+    ]
+  },
+  {
+    "id": "19",
+    "type": "single",
+    "image": "./images/19.jfif",
+    "question": "Какой результат вернёт запрос",
+    "options": [
+      "Запрос не выполнится из-за ошибки синтаксиса",
+      "Пустое множество",
+      "yes",
+      "no",
+      "NULL"
+    ],
+    "correct": "no"
+  },
+  {
+    "id": "20",
+    "type": "multiple",
+    "image": "./images/20.jfif",
+    "question": "Требуется сформировать столбец чисел вида\nКакой запрос позволит решить эту задачу?",
+    "options": [
+      "select 1 num union select 2 union select 3 union select 4 union select 5",
+      "select 1, 2, 3, 4, 5 num",
+      "select from (values (1), (2), (3), (4), (5)) a (num)",
+      "with numbers as (\nselect 1 num\nunionselect num+1 from numbers\nwhere num<5\n)\nselect * from numbers;"
+    ],
+    "correct": [
+      "select 1 num union select 2 union select 3 union select 4 union select 5",
+      "select from (values (1), (2), (3), (4), (5)) a (num)"
+    ]
+  },
+  {
+    "id": "21",
+    "type": "multiple",
+    "question": "Имеется таблица Book, содержащая среди прочих столбцы Pub_Year (год издания книги) и Publisher (издательство, в котором книга вышла). Необходимо увеличить на единицу год издания всех книг, выпущенных в издательстве “Мысль”. С помощью какого запроса или запросов это можно сделать?",
+    "options": [
+      "UPDATE SELECT * FROM Book WHERE Publisher='Mыcль' SET Year+1;",
+      "UPDATE Year FROM Book SET Year++ WHERE Publisher='Мысль';",
+      "UPDATE Book SET Year-Year+1 WHERE Publisher='Мысль';",
+      "UPDATE Book SET Year-Year+1 FROM Book WHERE Publisher='Мысль';",
+      "UPDATE Book SET Year+1 WHERE Publisher='Мысль';"
+    ],
+    "correct": [
+      "UPDATE Book SET Year-Year+1 WHERE Publisher='Мысль';",
+      "UPDATE Book SET Year-Year+1 FROM Book WHERE Publisher='Мысль';"
+    ]
+  },
+  {
+    "id": "22",
+    "type": "multiple",
+    "image": "./images/21.jfif",
+    "question": "Выберите один или несколько вариантов",
+    "options": [
+      "SELECT * FROM Book\nWHERE Publisher='Мысль'\nUNION\nSELECT FROM Book WHERE Publisher='Азбука'",
+      "SELECT * FROM Book\nWHERE Publisher = 'Мысль', Publisher = 'Азбука'",
+      "SELECT * FROM Book\nWHERE Publisher = 'Мысль' OR Publisher = 'Азбука'",
+      "SELECT * FROM Book\nWHERE Publisher IN ('Мысль','Азбука')"
+    ],
+    "correct": [
+      "SELECT * FROM Book\nWHERE Publisher='Мысль'\nUNION\nSELECT FROM Book WHERE Publisher='Азбука'",
+      "SELECT * FROM Book\nWHERE Publisher = 'Мысль' OR Publisher = 'Азбука'",
+      "SELECT * FROM Book\nWHERE Publisher IN ('Мысль','Азбука')"
+    ]
+  },
+  {
+    "id": "23",
+    "type": "multiple",
+    "image": "./images/23.jfif",
+    "question": "Необходимо выбрать авторов, чьи книги переиздавались в том же или в другом издательстве",
+    "options": [
+      "SELECT Author\nFROM Book\nWHERE Count(ID)>1;",
+      "SELECT Author\nFROM Book\nGROUP BY Author\nHAVING Count(*)>Count(DISTINCT Title);",
+      "SELECT DISTINCT Author\nFROM Book\nGROUP BY Author, Title\nHAVING Count(ID)>1;",
+      "SELECT Author\nFROM Book\nGROUP BY Author\nHAVING Count(ID)>1;"
+    ],
+    "correct": [
+      "SELECT Author\nFROM Book\nGROUP BY Author\nHAVING Count(*)>Count(DISTINCT Title);",
+      "SELECT DISTINCT Author\nFROM Book\nGROUP BY Author, Title\nHAVING Count(ID)>1;"
+    ]
+  },
+  {
+    "id": "24",
+    "type": "single",
+    "image": "./images/23.jfif",
+    "question": "Что произойдет при выполнении инструкции UPDATE Book SET ID=ID+1 WHERE Publisher = ‘Азбука’",
+    "options": [
+      "Обновление пройдет успешно для всех строк.",
+      "Выражение выполнится, но во время выполнения возникнет ошибка и ни одна строка не будет обновлена.",
+      "Обновится только одна строка, соответствующая книге «Как это делалось в Одессе».",
+      "Синтаксис выражения UPDATE некорректен, поэтому оно даже не выполнится."
+    ],
+    "correct": "Выражение выполнится, но во время выполнения возникнет ошибка и ни одна строка не будет обновлена."
+  },
+  {
+    "id": "25",
+    "type": "single",
+    "image": "./images/23.jfif",
+    "question": "Что вернет следующий SQL-запрос?\n(SELECT * FROM Book WHERE Publisher ='Азбука)\nUNION\n(SELECT Title, Author, Publisher FROM Book)",
+    "options": [
+      "Результат, аналогичный запросу SELECT * FROM Book WHERE Publisher = 'Азбука'",
+      "При исполнении запроса возникнет ошибка",
+      "Результат, аналогичный запросу SELECT * FROM Book",
+      "Результат, аналогичный запросу SELECT Title, Author, Publisher FROM Book"
+    ],
+    "correct": "При исполнении запроса возникнет ошибка"
+  },
+  {
+    "id": "26",
+    "type": "single",
+    "image": "./images/23.jfif",
+    "question": "Была создана таблица Book1 с аналогичной структурой. Необходимо поместить в нее информацию обо всех книгах из Book, которые были созданы до 2000-го года.",
+    "options": [
+      "INSERT INTO Book1 SELECT FROM Book WHERE Pub_Year<2000;",
+      "SELECT INTO Book1 FROM Book WHERE Pub_Year<2000;",
+      "SELECT * FROM Book WHERE Pub_Year<2000 TO Book1;",
+      "INSERT INTO Book1 VALUES (SELECT * FROM Book WHERE Pub_Year<2000);"
+    ],
+    "correct": "INSERT INTO Book1 SELECT FROM Book WHERE Pub_Year<2000;"
+  },
+  {
+    "id": "27",
+    "type": "multiple",
+    "image": "./images/23.jfif",
+    "question": "Необходимо в таблицу добавить следующую запись:\n5 ‘Гарри Поттер и Принц-полукровка’ ‘Ролинг Д.’ ‘Росмэн’ 2005",
+    "options": [
+      "INSERT INTO Book (Title, ID, Pub_Year, Publisher, Author)\nVALUES ('Гарри Поттер и Принц-полукровка', 5, 2005, 'Росмэн', 'Ролинг Д.');",
+      "INSERT VALUES (5, 'Гарри Поттер и Принц-полукровка', 'Ролинг Д.', 'Росмэн', 2005) INTO Book;",
+      "INSERT INTO Book VALUES (5, 'Гарри Поттер и Принц-полукровка', 'Ролинг Д.', 'Росмэн', 2005);",
+      "UPDATE BOOK SET\nID-5, Title='Гарри Поттер и Принц-полукровка', Author='Ролинг Д.', Publisher='Росмэн', Pub_Year-2005;"
+    ],
+    "correct": [
+      "INSERT INTO Book (Title, ID, Pub_Year, Publisher, Author)\nVALUES ('Гарри Поттер и Принц-полукровка', 5, 2005, 'Росмэн', 'Ролинг Д.');",
+      "INSERT INTO Book VALUES (5, 'Гарри Поттер и Принц-полукровка', 'Ролинг Д.', 'Росмэн', 2005);"
+    ]
+  },
+  {
+    "id": "28",
+    "type": "multiple",
+    "image": "./images/23.jfif",
+    "question": "Необходимо выбрать названия наиболее новых книг, то есть книг с наибольшим годом издания (из имеющихся в таблице данных). Какой из приведенных запросов позволит решить эту задачу.",
+    "options": [
+      "SELECT\nDISTINCT Title FROM Book\nWHERE Pub_Year >= ANY (SELECT MAX(Pub_Year) FROM Book);",
+      "Ни один из перечисленных вариантов не подходит",
+      "SELECT\nDISTINCT Title FROM Book\nWHERE Pub_Year = (SEELECT Max (Pub_Year) FROM Book);",
+      "SELECT\nDISTINCT Title FROM Book\nWHERE Pub_Year >= ALL (SELECT Pub_Year FROM Book);",
+      "SELECT\nDISTINCT Title FROM Book\nWHERE Pub_Year = Max(Pub_Year);",
+      "SELECT\nDISTINCT Title FROM Book\nWHERE Pub_Year>=Pub_Year;"
+    ],
+    "correct": [
+      "SELECT\nDISTINCT Title FROM Book\nWHERE Pub_Year >= ANY (SELECT MAX(Pub_Year) FROM Book);",
+      "SELECT\nDISTINCT Title FROM Book\nWHERE Pub_Year = (SEELECT Max (Pub_Year) FROM Book);",
+      "SELECT\nDISTINCT Title FROM Book\nWHERE Pub_Year >= ALL (SELECT Pub_Year FROM Book);"
+    ]
+  },
+  {
+    "id": "29",
+    "type": "single",
+    "question": "В базе данных имеется единственная таблица Book с первичным ключом, созданном по столбцам ID, К чему приведет выполнение инструкции DELETE FROM Book;?",
+    "options": [
+      "Из таблицы будет удалена одна строка с наибольшим значением столбца ID",
+      "Синтаксис выражения DELETE некорректен, поэтому оно даже не выполнится",
+      "Выражение синтаксически корректно, но оно выполнится с ошибкой из-за наличия первичного ключа, и ни одна строка не будет удалена",
+      "Из таблицы будут удалены все строки",
+      "Из таблицы будет удалена одна строка с наименьшим значением столбца 10"
+    ],
+    "correct": "Из таблицы будут удалены все строки"
+  },
+  {
+    "id": "30",
+    "type": "single",
+    "question": "Таблица Students была создана в базе данных MS SQL Server с помощью следующего выражения:\nCREATE TABLE Students\n( ID int,\nName varchar(100) )\nС помощью выражения ALTER TABLE Вы пытаетесь сделать столбец ID первичным ключом, но этого сделать не удается, так как возникает ошибка, В чем ее причина?",
+    "options": [
+      "Столбец ID может принимать значение NULL, необходимо изменить определение столбца на NOT NULL",
+      "Для столбца ID не определено значение по умолчанию, необходимо задать его",
+      "Столбец ID имеет неподходящий тип, необходимо изменить его на numeric (8,0)",
+      "Столбец ID содержит дублирующиеся данные, поэтому ограничение нужно создавать с опцией WITH NOCHEСК"
+    ],
+    "correct": "Столбец ID может принимать значение NULL, необходимо изменить определение столбца на NOT NULL"
+  },
+  {
+    "id": "31",
+    "type": "multiple",
+    "question": "Таблица Mark состоит из трех столбцов\n- ID - номер студенческого билета, целое число\n-Subject - код предмета, за который выставлена оценка (4 символа цифры или буквы)\n-Mark - оценка студента за экзамен (5 значений от 1 до 5 баллов)\n\nПри создании таблицы никаких ограничений создано не было. Какие ограничения нужно создать, если известно, что первичных ключ таблицы Mark должен состоять из двух столбцов - ID и Subject, а по столбцу ID должно производиться связывание таблиц Mark и Students (в таблице Students столбец ID - первичный ключ)",
+    "options": [
+      "ALTER TABLE Mark\nADD CONSTRAINT PK_Mark_ID_Subject UNIQUE (ID, Subject)",
+      "ALTER TABLE Mark\nADD CONSTRAINT FK Mark_ID FOREIGN KEY (ID)\nREFERENCES Students (ID)",
+      "ALTER TABLE Mark\nADD CONSTRAINT CK_Mark_Subject CHECK (ID-Students.ID)",
+      "ALTER TABLE Mark\nADD CONSTRAINT PK_Mark_ID_Subject PRIMARY KEY (ID, Subject)"
+    ],
+    "correct": [
+      "ALTER TABLE Mark\nADD CONSTRAINT FK Mark_ID FOREIGN KEY (ID)\nREFERENCES Students (ID)",
+      "ALTER TABLE Mark\nADD CONSTRAINT PK_Mark_ID_Subject PRIMARY KEY (ID, Subject)"
+    ]
+  },
+  {
+    "id": "32",
+    "type": "single",
+    "question": "Таблица Mark состоит из трех столбцов\n- ID - номер студенческого билета, целое число\n-Subject - код предмета, за который выставлена оценка (4 символа цифры или буквы)\n-Mark - оценка студента за экзамен (5 значений от 1 до 5 баллов)\n\nКакое выражение лучше всего использовать для создания данной таблицы, с учетом того, что в ней преполагается хранение десятков тысяч строк",
+    "options": [
+      "CREATE TABLE Mark\n(ID int,\nSubject varchar (4),\nMark int)\n",
+      "CREATE TABLE Mark\n(ID int, Subject char(4),\nMark tinyint)",
+      "CREATE TABLE Mark\n(ID decimal (2,1),\nSubject char (4),\nMark decimal (2,1))",
+      "CREATE TABLE Mark(ID int,\nSubject char (4),\nMark char(1))"
+    ],
+    "correct": "CREATE TABLE Mark\n(ID int, Subject char(4),\nMark tinyint)"
+  },
+  {
+    "id": "33",
+    "type": "text",
+    "question": "Какой результат вернет данный запрос?\nwith cte1 as (select 1 num),\ncte2 as (select num+1 num from cte1),\ncte3 as(select num+1 num from cte2)\n select * from cte3",
+    "correct": "3"
+  },
+  {
+    "id": "34",
+    "type": "multiple",
+    "question": "Выберите утверждения, верные для общих табличных выражений (CTE)",
+    "options": [
+      "CTE может использоваться только с оператором SELECT",
+      "CTE позволяет уменьшить объем кода запроса",
+      "CTE - это производная таблица, которая создается в рамках 1 запроса",
+      "CTE улучшает читабельность запроса",
+      "СТЕ сохраняется в памяти и доступно для использования в течении сессии",
+      "В некоторых СУБД использование СТЕ влияет на производительность запроса"
+    ],
+    "correct": [
+      "CTE позволяет уменьшить объем кода запроса",
+      "CTE - это производная таблица, которая создается в рамках 1 запроса",
+      "CTE улучшает читабельность запроса",
+      "В некоторых СУБД использование СТЕ влияет на производительность запроса"
+    ]
+  },
+  {
+    "id": "35",
+    "type": "multiple",
+    "question": "Какие из указанных функций относятся к функциям ранжирования?",
+    "options": [
+      "DENSE_RANK() OVER()",
+      "LAG() OVER()",
+      "COUNT() OVER()",
+      "NTILE(n) OVER()",
+      "RANK() OVER()",
+      "SUM() OVER()",
+      "LEAD() OVER()",
+      "AVG() OVER()"
+    ],
+    "correct": ["NTILE(n) OVER()", "DENSE_RANK() OVER()", "RANK() OVER()"]
+  },
+  {
+    "id": "36",
+    "type": "single",
+    "image": "./images/36.jfif",
+    "question": "Какой результат выведет данный запрос?",
+    "options": [
+      "Одного лучшего студента для каждого класса",
+      "Для каждого класса - перечень студентов, имеющих минимальный балл",
+      "Сообщение об ошибке",
+      "Для каждого класса - перечень студентов, имеющих максимальный балл"
+    ],
+    "correct": "Сообщение об ошибке"
+  },
+  {
+    "id": "37",
+    "type": "single",
+    "question": "Вместе с оконными функциями и функциями ранжирования иногда используется фраза OVER()",
+    "options": ["Верно", "Неверно"],
+    "correct": "Неверно"
+  },
+  {
+    "id": "38",
+    "type": "multiple",
+    "question": "Какими способами процедура может вернуть значение",
+    "options": [
+      "Процедура ничего не возвращает",
+      "В виде входного параметра заданного через REF",
+      "В виде кода завершения процедуры, возвращаемого через оператор RETURN",
+      "В виде значения выходного параметра, заданного через OUTPUT",
+      "В виде значения поля с приставкой @",
+      "В виде резульата запроса SELECT, выполняемого в теле процедуры"
+    ],
+    "correct": [
+      "В виде кода завершения процедуры, возвращаемого через оператор RETURN",
+      "В виде значения выходного параметра, заданного через OUTPUT",
+      "В виде резульата запроса SELECT, выполняемого в теле процедуры"
+    ]
+  },
+  {
+    "id": "39",
+    "type": "multiple",
+    "question": "В каких случаях выполнение указанного кода приведет к созданию модифицируемых представлений?",
+    "options": [
+      "CREATE VIEW view2\nAS\nSELECT КодКлиента, Фирма\nFROM Клиент\nWHERE Фирма IN (SELECT Фирма FROM Клиент INNER JOIN Сделка ON Сделка.КодКлиента = Клиент.КодКлиента)",
+      "CREATE VIEW view4\nAS\nSELECT*\nFROM Товар\nWHERE Тип='Конфеты'",
+      "CREATE VIEW view1\nAS\nSELECT Название, Тип, Цена\nFROM Товар\nWHERE Цена > 1000",
+      "CREATE VIEW view3(Тип)\nAS\nSELECT КодТовара Тип, sum(НаСкладе)\nFROM Товар\nGROUP BY КодТовара, Тип"
+    ],
+    "correct": [
+      "CREATE VIEW view4\nAS\nSELECT*\nFROM Товар\nWHERE Тип='Конфеты'",
+      "CREATE VIEW view1\nAS\nSELECT Название, Тип, Цена\nFROM Товар\nWHERE Цена > 1000"
+    ]
+  },
+  {
+    "id": "40",
+    "type": "match",
+    "image": "./images/40.jfif",
+    "question": "На рисунке представлены запрос к таблице Battles (name, data) и план его выполнения. Определите правильную последовательность операций",
+    "pairs": [
+      {
+        "left": "1",
+        "right": "Сканирование кластеризованного индекса. Возвращение date"
+      },
+      {
+        "left": "2",
+        "right": "Статическое выражение потока. Вычисление максимальной date"
+      },
+      {
+        "left": "3",
+        "right": "Сканирование кластеризованного индекса. Возвращение поля name, date"
+      },
+      {
+        "left": "4",
+        "right": "Вложенные циклы. Соединение по равенству дать"
+      }
+    ]
+  },
+  {
+    "id": "41",
+    "type": "single",
+    "question": "Сериализация транзакций - это механизм их совместного выполнения",
+    "options": ["Верно", "Неверно"],
+    "correct": "Верно"
+  },
+  {
+    "id": "42",
+    "type": "single",
+    "question": "Какие проблемы совместной работы транзакций возможны на уровне изоляции SERIALIZABLE?",
+    "options": [
+      "Потерянные изменения",
+      "Неповторяющиеся чтения",
+      "Чтение 'грязных данных'",
+      "Фантомы",
+      "Нет проблем совместной работы транзакций"
+    ],
+    "correct": "Нет проблем совместной работы транзакций"
+  },
+  {
+    "id": "43",
+    "type": "multiple",
+    "question": "Отметьте свойства поля, которые определяются его типом данных",
+    "options": [
+      "уникальность значений поля",
+      "точность числа",
+      "вид данных, которые могут содержаться в поле",
+      "значение по умолчанию",
+      "условие на значение данных",
+      "длина или размер хранимого значения"
+    ],
+    "correct": [
+      "точность числа",
+      "вид данных, которые могут содержаться в поле",
+      "длина или размер хранимого значения"
+    ]
+  },
+  {
+    "id": "44",
+    "type": "multiple",
+    "question": "Для каких столбцов не рекомендуется создавать индексы?",
+    "options": [
+      "столбцов с низкой кардинальностью",
+      "столбцов, участвующих в операции соединения",
+      "столбцов значительной длины",
+      "столбцов с часто изменяемыми значениями",
+      "столбцов, имеющих много неопределенных значений",
+      "уникальных столбцов",
+      "столбцов, участвующих в предикатах поиска"
+    ],
+    "correct": [
+      "столбцов с низкой кардинальностью",
+      "столбцов, имеющих много неопределенных значений",
+      "столбцов с часто изменяемыми значениями",
+      "столбцов значительной длины"
+    ]
+  },
+  {
+    "id": "45",
+    "type": "multiple",
+    "question": "В чем состоит основное назначение индексов в БД?",
+    "options": [
+      "обеспечение ссылочной целостности данных",
+      "обеспечение возможности доступа к данным",
+      "увеличение скорости доступа к данным",
+      "поддержка уникальности данных"
+    ],
+    "correct": [
+      "увеличение скорости доступа к данным",
+      "поддержка уникальности данных"
+    ]
+  },
+  {
+    "id": "46",
+    "type": "multiple",
+    "image": "./images/46.jfif",
+    "question": "В чем состоит основное назначение индексов в БД?",
+    "options": [
+      "Для описания столбца ISBN использован тип данных фиксированной длины",
+      "Столбец BookID не может принимать неопределенное значение",
+      "Вносимые в таблицу записи должны описывать книги, изданные после 1900 года",
+      "В столбец Publisher нельзя будет записать строку длиннее 100 символов",
+      "Первичный ключ этой таблицы состоит из столбцов BookID и Pub_year"
+    ],
+    "correct": [
+      "Столбец BookID не может принимать неопределенное значение",
+      "Вносимые в таблицу записи должны описывать книги, изданные после 1900 года"
+    ]
+  },
+  {
+    "id": "47",
+    "type": "multiple",
+    "image": "./images/47.jfif",
+    "question": "В чем состоит основное назначение индексов в БД?",
+    "options": [
+      "При наличии ноля с столбце num1 запрос выведет 0",
+      "Запрос вычисляет произведение элементов столбца num1",
+      "Запрос корректно работает на любых наборах данных",
+      "Запрос возвращает одно значение",
+      "Если все значения num1 будут равны NULL запрос выведет NULL",
+      "Запрос возвращает несколько значений",
+      "Запрос не выполняется из-за ошибки синтаксиса",
+      "Если все значения num1 будут равны NULL запрос выведет 1",
+      "При наличии ноля с столбце num1 запрос выведет 1",
+      "Запрос вычисляет сумму элементов столбца num1"
+    ],
+    "correct": [
+      "При наличии ноля с столбце num1 запрос выведет 0",
+      "Запрос вычисляет произведение элементов столбца num1",
+      "Запрос возвращает одно значение",
+      "Если все значения num1 будут равны NULL запрос выведет 1"
+    ]
+  },
+  {
+    "id": "48",
+    "type": "single",
+    "image": "./images/48.jfif",
+    "question": "Выберите 1 ответ",
+    "options": [
+      "select * from Person.Address",
+      "select * from Person.Address with (nolock)",
+      "select * from Person.Address with (readpast)"
+    ],
+    "correct": "select * from Person.Address with (nolock)"
+  },
+  {
+    "id": "49",
+    "type": "match",
+    "question": "Установите соответствие между понятиями и их определениями",
+    "pairs": [
+      {
+        "left": "Группа операторов Transact-SQL, которая исполняется при определенной модификации данных в заданной таблице",
+        "right": "Триггер"
+      },
+      {
+        "left": "Группа из одного или нескольких операторов Transact-SQL, которые приложение одновременно посылает на SQL Server для исполнения",
+        "right": "Пакет"
+      },
+      {
+        "left": "Группа операторов Transact-SQL, которая компилируется один раз и после этого может выполняться многократно",
+        "right": "Хранимая процедура"
+      }
+    ]
+  },
+  {
+    "id": "50",
+    "type": "multiple",
+    "question": "Перечислите случаи, в которых уместно использовать триггеры",
+    "options": [
+      "если необходимо каскадное изменение через связанные таблицы в базе данных",
+      "если необходимо сверить значение в одной таблице со значением в другой таблице",
+      "если требуется обеспечить доступ к БД через клиентское приложение",
+      "если база данных денормализована и требуется способ автоматизированного обновления избыточных данных в нескольких таблицах",
+      "если требуется вывод пользовательских сообщений и сложная обработка ошибок",
+      "если необходимо определить декларативные ограничения целостности"
+    ],
+    "correct": [
+      "если необходимо каскадное изменение через связанные таблицы в базе данных",
+      "если необходимо сверить значение в одной таблице со значением в другой таблице",
+      "если база данных денормализована и требуется способ автоматизированного обновления избыточных данных в нескольких таблицах",
+      "если требуется вывод пользовательских сообщений и сложная обработка ошибок"
+    ]
+  },
+  {
+    "id": "51",
+    "type": "multiple",
+    "question": "Укажите объекты, которые могут быть в логической базе данных",
+    "options": [
+      "Таблица",
+      "SQL-запрос",
+      "Хранимая процедура",
+      "Триггер",
+      "Файл",
+      "Представление"
+    ],
+    "correct": ["Таблица", "Хранимая процедура", "Триггер", "Представление"]
+  },
+  {
+    "id": "52",
+    "type": "single",
+    "question": "Когда срабатывает триггер?",
+    "options": [
+      "После завершения транзакции",
+      "После проверки на соответствие ограничению, но до завершения транзакции",
+      "Когда выполняется команда на запуск триггера",
+      "До проверки на соответствие проверочному ограничению"
+    ],
+    "correct": "После проверки на соответствие ограничению, но до завершения транзакции"
+  },
+  {
+    "id": "53",
+    "type": "single",
+    "image": "./images/53.jfif",
+    "question": "Задание на картинке",
+    "options": [
+      "ФИО студентов, которые сдавали хотя бы один экзамен",
+      "Запрос не выполнится, будет выдана ошибка",
+      "В зависимости от введенного значения будет либо выдана ошибка, либо одна строка с ФИО студента, сдававшего экзамен, либо ни одной строки",
+      "Запрос не выполнится, но не выдаст ни одной строки"
+    ],
+    "correct": "В зависимости от введенного значения будет либо выдана ошибка, либо одна строка с ФИО студента, сдававшего экзамен, либо ни одной строки"
+  },
+  {
+    "id": "54",
+    "type": "multiple",
+    "image": "./images/54.jfif",
+    "question": "Выберите из приведенного списка те запросы, которые либо являются синтаксически неверными, либо приведут к ошибке на этапе исполнения.",
+    "options": [
+      "SELECT Students.ID FROM Students S;",
+      "SELECT * FROM Students WHERE NOT EXISTS (SELECT * FROM Results WHERE ID=2);",
+      "SELECT FROM Students GROUP BY Name;",
+      "SELECT FROM Students WHERE Mark > 5;"
+    ],
+    "correct": [
+      "SELECT Students.ID FROM Students S;",
+      "SELECT FROM Students GROUP BY Name;",
+      "SELECT FROM Students WHERE Mark > 5;"
+    ]
+  },
+  {
+    "id": "55",
+    "type": "multiple",
+    "image": "./images/54.jfif",
+    "question": "Из приведенных вариантов выберите те, которые позволяют отобрать ФИО студентов, сдавших хотя бы 1 экзамен на 5.",
+    "options": [
+      "SELECT DISTINCT Name\nFROM Students Inner Join Results On\nStudents.ID=Results.ID\nWHERE Mark=5;",
+      "SELECT DISTINCT Name\nFROM Students, Results\nWHERE Students.ID=Results.ID AND\nMark=5;",
+      "SELECT DISTINCT Name FROM Students\nWHERE ID In (Select ID From Results\nWhere Mark=5);",
+      "SELECT DISTINCT Name\nFROM Students Left Join Results On\nStudents.ID=Results.ID\nWHERE Mark=5;"
+    ],
+    "correct": [
+      "SELECT DISTINCT Name\nFROM Students Inner Join Results On\nStudents.ID=Results.ID\nWHERE Mark=5;",
+      "SELECT DISTINCT Name\nFROM Students, Results\nWHERE Students.ID=Results.ID AND\nMark=5;",
+      "SELECT DISTINCT Name FROM Students\nWHERE ID In (Select ID From Results\nWhere Mark=5);",
+      "SELECT DISTINCT Name\nFROM Students Left Join Results On\nStudents.ID=Results.ID\nWHERE Mark=5;"
+    ]
+  },
+  {
+    "id": "56",
+    "type": "single",
+    "image": "./images/56.jfif",
+    "question": "Задание на картинке",
+    "options": [
+      "В синтаксисе инструкции SELECT допущены ошибки, поэтому она не выполнится",
+      "Список всех филиалов",
+      "Список филиалов, где работает хотя бы двое однофамильцев. В результирующем выводе не будет повторений названий филиалов",
+      "Список филиалов, где работает хотя бы двое однофамильцев. В результирующем выводе возможно повторение названий филиалов"
+    ],
+    "correct": "Список филиалов, где работает хотя бы двое однофамильцев. В результирующем выводе не будет повторений названий филиалов"
+  },
+  {
+    "id": "57",
+    "type": "multiple",
+    "image": "./images/57.jfif",
+    "question": "Задание на картинке",
+    "options": [
+      "Rn (ИС4, А7)",
+      "Rn (ИС2, ИС2)",
+      "Rn (ИC2, A3, A5, A6, ИC2)",
+      "Rn (ИC4, A8)",
+      "Rn (ИС1. ИС2. ИС4, А2)",
+      "Rn (ИС2, А3, А4, А5, А6, ИС2)",
+      "Rn (ИC2, A3, A5, A6)",
+      "Rn (ИC1, A1)"
+    ],
+    "correct": [
+      "Rn (ИC1, A1)",
+      "Rn (ИC2, A3, A5, A6, ИC2)",
+      "Rn (ИС1. ИС2. ИС4, А2)",
+      "Rn (ИC4, A8)",
+      "Rn (ИС4, А7)"
+    ]
+  },
+  {
+    "id": "58",
+    "type": "single",
+    "image": "./images/54.jfif",
+    "question": "Сколько строк вернет SELECT * FROM Students LEFT JOIN Results ON Students.ID = Results.ID;",
+    "options": ["3", "9", "6", "4"],
+    "correct": "4"
+  },
+  {
+    "id": "59",
+    "type": "multiple",
+    "image": "./images/54.jfif",
+    "question": "Из приведенных вариантов выберите те, которые позволяют отобрать ФИО студентов, сдавшие все экзамены на 5",
+    "options": [
+      "SELECT DISTINCT Name FROM Students \n WHERE ID In (Select ID From Results \n GROUP BY ID HAVING Avg (Mark)-5);",
+      "SELECT DISTINCT Name \n FROM Students s Join Results ON s.ID-r.ID \n GROUP BY s.ID \n HAVING Min(Mark)-5",
+      "SELECT DISTINCT Name \n FROM Students, Results \n WHERE Students.ID-Results.ID AND \n Mark-5;",
+      "SELECT DISTINCT Name \n FROM Students Inner Join Results On \n Students.ID-Results.ID \n WHERE Mark-5;"
+    ],
+    "correct": [
+      "SELECT DISTINCT Name FROM Students \n WHERE ID In (Select ID From Results \n GROUP BY ID HAVING Avg (Mark)-5);",
+      "SELECT DISTINCT Name \n FROM Students s Join Results ON s.ID-r.ID \n GROUP BY s.ID \n HAVING Min(Mark)-5"
+    ]
+  },
+  {
+    "id": "60",
+    "type": "multiple",
+    "image": "./images/54.jfif",
+    "question": "Выберите все варианты запроса, позволяющего выбрать номера студденческих билетов и фамилии студентов, не сдававших ни одного экзамена",
+    "options": [
+      "SELECT * \n FROM Students \n WHERE Exists \n (SELECT * FROM Results WHERE Students.ID <> Results.ID);",
+      "SELECT * \n FROM Students \n WHERE Not Exists \n (SELECT * FROM Results WHERE Students.ID=Results.ID);",
+      "SELECT DISTINCT Students.ID, Students.Name \n FROM Students, Results \n WHERE Students.ID <>Results.ID;",
+      "SELECT s.* \n FROM Students s LEFT JOIN Results ON s.ID=r.ID \n WHERE г.ID IS NULL",
+      "SELECT * \n FROM Students \n WHERE Students.ID Not in (SELECT ID FROM Results);"
+    ],
+    "correct": [
+      "SELECT * \n FROM Students \n WHERE Not Exists \n (SELECT * FROM Results WHERE Students.ID=Results.ID);",
+      "SELECT s.* \n FROM Students s LEFT JOIN Results ON s.ID=r.ID \n WHERE г.ID IS NULL",
+      "SELECT * \n FROM Students \n WHERE Students.ID Not in (SELECT ID FROM Results);"
+    ]
+  },
+  {
+    "id": "61",
+    "type": "multiple",
+    "question": "В базе данных имеется таблица Employees, содержащая столбец AutoNum (строковый тип данных гос.номер автомобиля сотрудника). В столбце AutoNum содержатся значения вида 'A111MB44' Вы хотите найти сотрудника, у которого номера 44-го региона и две первые цифры номера (т.е 2-3 символы) равны 74' или '75'. Какое условие в запросе SELECT вы используете?",
+    "options": [
+      "WHERE (AutoNum [2,2] = 74' OR AutoNum [2,2] = 74') AND AutoNum[7,2]='44'",
+      "WHERE AutoNum LIKE %7[45]%44%",
+      "WHERE (AutoNum LIKE 74% OR AutoNum LIKE 75%) AND AutoNum LIKE '%44'",
+      "WHERE AutoNum LIKE '_7[45]%44'"
+    ],
+    "correct": [
+      "WHERE (AutoNum LIKE 74% OR AutoNum LIKE 75%) AND AutoNum LIKE '%44'",
+      "WHERE AutoNum LIKE '_7[45]%44'"
+    ]
+  },
+  {
+    "id": "62",
+    "type": "multiple",
+    "image": "./images/23.jfif",
+    "question": "Выберите запросы, возвращающие всю информацию о книгах, изданных в издательствах 'Азбука' или 'Мысль'",
+    "options": [
+      "SELECT * FROM Book \n WHERE Publisher = 'Мысль' \n UNION \n SELECT * FROM Book WHERE Publisher = 'Азбука'",
+      "SELECT * FROM Book \n WHERE Publisher = 'Мысль', Publisher = 'Азбука'",
+      "SELECT * FROM Book \n WHERE Publisher = 'Мысль' OR Publisher = 'Азбука'",
+      "SELECT * FROM Book \n WHERE Publisher IN ('Мысль','Азбука')"
+    ],
+    "correct": [
+      "SELECT * FROM Book \n WHERE Publisher = 'Мысль' OR Publisher = 'Азбука'",
+      "SELECT * FROM Book \n WHERE Publisher = 'Мысль' \n UNION \n SELECT * FROM Book WHERE Publisher = 'Азбука'",
+      "SELECT * FROM Book \n WHERE Publisher IN ('Мысль','Азбука')"
+    ]
+  },
+  {
+    "id": "63",
+    "type": "multiple",
+    "image": "./images/63.jfif",
+    "question": "Задание на картинке",
+    "options": [
+      "SELECT * FROM A CROSS JOIN B;",
+      "SELECT * FROM A UNION SELECT * FROM B;",
+      "SELECT * FROM A FULL JOIN B ON 1=1",
+      "SELECT * FROM A INNER JOIN B ON IDA=IDB;",
+      "SELECT * FROM A LEFT OUTER JOIN B ON IDA=IDB;",
+      "SELECT * FROM A FULL JOIN B ON 1=2;",
+      "SELECT * FROM A,B;"
+    ],
+    "correct": [
+      "SELECT * FROM A CROSS JOIN B;",
+      "SELECT * FROM A FULL JOIN B ON 1=1",
+      "SELECT * FROM A,B;"
+    ]
+  },
+  {
+    "id": "64",
+    "type": "single",
+    "image": "./images/64.jfif",
+    "question": "Задание на картинке",
+    "options": [
+      "Отношение находится во 2-й НФ, но не соответствует требованиям более старших НФ",
+      "Отношение находится во 3-й НФ, но не соответствует требованиям более старших НФ",
+      "Отношение находится в 1-й НФ, но не соответствует требованиям более старших НФ",
+      "Отношение не соответствует ни одной НФ",
+      "Отношение находится в НФ Бойса-Кодда, но не соответствует требованиям более старших НФ"
+    ],
+    "correct": "Отношение находится в 1-й НФ, но не соответствует требованиям более старших НФ"
+  },
+  {
+    "id": "65",
+    "type": "single",
+    "image": "./images/65.jfif",
+    "question": "Задание на картинке",
+    "options": [
+      "{N рейса (FK), Дата вылета, Бортовой N самолета (FK)}, \n {N рейса, Место отправления, Место назначения, Время вылета}, \n {Бортовой N самолета, Модель самолета, Число мест}",
+      "{N рейса (FK), Дата вылета, Бортовой N самолета (FK)}, \n {N рейса, Место отправления, Место назначения, время вылета}, \n {Бортовой N самолета, Модель самолета (FК)}, \n {Модель самолета (FK), Число мест}",
+      "{N рейса (FK), Дата вылета, Бортовой N самолета (FK)} \n {N рейса, Место отправления, Место назначения}, \n {N рейса (FK), Время вылета}, \n {Бортовой N самолета, Модель самолета (FK)}, {Модель самолета, Число мест}",
+      "{N рейса, Дата вылета, Бортовой N самолета (FK), Место отправления, Место назначения, Время вылета}, \n {Бортовой N самолета, Модель самолета, Число мест}",
+      "Отношение находится в НФ Бойса-Кодда, но не соответствует требованиям более старших НФ"
+    ],
+    "correct": "{N рейса (FK), Дата вылета, Бортовой N самолета (FK)}, \n {N рейса, Место отправления, Место назначения, время вылета}, \n {Бортовой N самолета, Модель самолета (FК)}, \n {Модель самолета (FK), Число мест}"
+  },
+  {
+    "id": "66",
+    "type": "single",
+    "image": "./images/66.jfif",
+    "question": "Задание на картинке",
+    "options": [
+      "Ни один из вариантов не позволяет выполнить поставленные условия",
+      "{Номер, ФИО, Адресс, Секция, Страна}",
+      "{Номер, Секция, Страна}, {Номер, ФИО, Адрес}",
+      "{Номер, ФИО, Адрес}, {Номер, Страна}, {Номер, Секция}",
+      "{Номер, ФИО}, {Номер Адрес}, {Номер, Секция}, {Номер, Страна}"
+    ],
+    "correct": "{Номер, ФИО, Адрес}, {Номер, Страна}, {Номер, Секция}"
+  },
+  {
+    "id": "67",
+    "type": "match",
+    "question": "Определите основные свойства транзакций",
+    "pairs": [
+      {
+        "left": "Velocity",
+        "right": "Не является свойством транзакций"
+      },
+      {
+        "left": "Consistency",
+        "right": "Транзакция переводит БД из одного целостного состояния в другое целостное состояние"
+      },
+      {
+        "left": "Atomicity",
+        "right": "Транзакция выполняется полностью, либо происходит её откат"
+      },
+      {
+        "left": "Variety",
+        "right": "Не является свойством транзакций"
+      },
+      {
+        "left": "Durability",
+        "right": "Если транзакция выполнена, то резульататы её работы гарантированно сохраняются в БД"
+      },
+      {
+        "left": "Isolation",
+        "right": "Транзакции разных пользователей не должны мешать друг другу"
+      }
+    ]
+  },
+  {
+    "id": "68",
+    "type": "single",
+    "question": "На какой стадии выполнения транзакции база данных может временно находиться в несогласованном состоянии?",
+    "options": [
+      "Начало транзакции",
+      "Выполнение транзакции",
+      "Фиксация транзакции",
+      "Откат транзакции"
+    ],
+    "correct": "Выполнение транзакции"
+  },
+  {
+    "id": "69",
+    "type": "multiple",
+    "image": "./images/69.jfif",
+    "question": "Задание на картинке",
+    "options": [
+      "Число записей, возвращаемых запросом (1), может быть меньше числа записей, возвращаемых запросом (3)",
+      "Число записей, возвращаемых запросом (1), может быть больше числа записей, возвращаемых запросом (2)",
+      "Число записей, возвращаемых запросом (1), всегда будет равно числу записей, возвращаемых запросом (3)",
+      "Число записей, возвращаемых запросом (1), может быть меньше числа записей, возвращаемых запросом (2)",
+      "Число записей, возвращаемых запросом (1), всегда будет равно числу записей, возвращаемых запросом (2)",
+      "Число записей, возвращаемых запросом (1), может быть больше числа записей, возвращаемых запросом (3)"
+    ],
+    "correct": [
+      "Число записей, возвращаемых запросом (1), всегда будет равно числу записей, возвращаемых запросом (3)",
+      "Число записей, возвращаемых запросом (1), может быть меньше числа записей, возвращаемых запросом (2)"
+    ]
+  },
+  {
+    "id": "70",
+    "type": "multiple",
+    "question": "В базе данных имеется таблица Employees, содержащая столбец AutoNum(строковый тип данных - гос.номер автомобиля сотрудника). В столбце AutoNum содержатся значения вида ‘A111AA44’ Вы хотите найти сотрудника, в номере которого есть хотя бы одна буква ‘А’. Какое условие в запросе SELECT вы используете? ",
+    "options": [
+      "WHERE AutoNum LIKE ‘A%’ o WHERE AutoNum LIKE ‘A%A%’",
+      "WHERE AutoNum LIKE ‘%A%’",
+      "WHERE AutoNum LIKE ‘A%’ OR AutoNum LIKE ‘%A__’ OR AutoNum LIKE ‘%A___’"
+    ],
+    "correct": [
+      "WHERE AutoNum LIKE ‘%A%’",
+      "WHERE AutoNum LIKE ‘A%’ OR AutoNum LIKE ‘%A__’ OR AutoNum LIKE ‘%A___’"
+    ]
+  },
+  {
+    "id": "71",
+    "type": "multiple",
+    "question": "В базе данных имеется таблица Employees, содержащая столбец Departament (числовой тип данных - номер отдела сотрудника). Вы хотите найти сотрудников из отделов 3, 5 и 7. Какой вариант условий WHERE вы используете?",
+    "options": [
+      "WHERE Department IN (3,5,7)",
+      "WHERE Department = (3,5,7)",
+      "WHERE Department=3 OR Department=5 OR Department=7",
+      "WHERE Department = 3 OR 5 OR 7"
+    ],
+    "correct": [
+      "WHERE Department IN (3,5,7)",
+      "WHERE Department=3 OR Department=5 OR Department=7"
+    ]
+  },
+  {
+    "id": "72",
+    "type": "multiple",
+    "question": "В базе данных имеется таблица Employees, содержащая столбец Salary (денежный тип данных – заработная плата сотрудника). Вы хотите найти сотрудников, у которых заработная плата составляет от 40000 до 50000 рублей. Какое условие в запросе SELECT вы используете?",
+    "options": [
+      "WHERE Salary>=40000 AND <=50000",
+      "WHERE Salary BETWEEN 40000 TO 50000",
+      "WHERE Salary>=40000 AND Salary <=50000",
+      "WHERE Salary BETWEEN 40000 AND 50000"
+    ],
+    "correct": [
+      "WHERE Salary>=40000 AND Salary <=50000",
+      "WHERE Salary BETWEEN 40000 AND 50000"
+    ]
+  },
+  {
+    "id": "73",
+    "type": "multiple",
+    "question": "В базе данных имеется таблица Employees, содержащая столбец Commission (процент комиссии за заключение договора). Только некоторые сотрудники получают комиссию, у остальных в этом поле содержится значение NULL. Какое условие нужно указать в запросе SELECT, чтобы выбрать всех сотрудников, получающих комиссию?",
+    "options": [
+      "WHERE Commission <> NULL",
+      "WHERE NOT (Commission = NULL)",
+      "WHERE Commission IS NOT NULL",
+      "WHERE NOT (Commission IS NULL)",
+      "WHERE NOT (Commission LIKE NULL)",
+      "WHERE EXISTS Commission"
+    ],
+    "correct": [
+      "WHERE Commission IS NOT NULL",
+      "WHERE NOT (Commission IS NULL)"
+    ]
+  },
+  {
+    "id": "74",
+    "type": "multiple",
+    "question": "В чем состоит назначение механизма транзакций в СУБД?",
+    "options": [
+      "Обеспечение проверки прав пользователей",
+      "Обеспечение возможности доступа пользователей к данным",
+      "Обеспечение целостности данных",
+      "Обеспечение изолированности пользователей при работе в многопользовательском режиме",
+      "Обеспечение возможности восстановления БД после сбоев"
+    ],
+    "correct": [
+      "Обеспечение целостности данных",
+      "Обеспечение изолированности пользователей при работе в многопользовательском режиме",
+      "Обеспечение возможности восстановления БД после сбоев"
+    ]
+  },
+  {
+    "id": "75",
+    "type": "multiple",
+    "question": "Какие проблемы совместной работы транзакций возможны на уровне изоляции READ COMMITTED?",
+    "options": [
+      "Нет проблем совместной работы транзакций",
+      "Потерянные изменения",
+      "Чтение 'грязных данных'",
+      "Фантомы",
+      "Неповторяющиеся чтения"
+    ],
+    "correct": ["Фантомы", "Неповторяющиеся чтения"]
+  },
+  {
+    "id": "76",
+    "type": "match",
+    "image": "./images/76.jfif",
+    "question": "Какие проблемы изоляции транзакций представлены на рисунках ",
+    "pairs": [
+      {
+        "left": "1",
+        "right": "Потеря результатов обновления"
+      },
+      {
+        "left": "2",
+        "right": "Неповторяющиеся чтения"
+      },
+      {
+        "left": "3",
+        "right": "Чтение 'грязных данных'"
+      }
+    ]
+  },
+  {
+    "id": "75",
+    "type": "multiple",
+    "question": "Что из нижеперечисленного относится к свойствам триггерных таблиц inserted и deleted",
+    "options": [
+      "Структура таблиц inserted и deleted идентична структуре таблиц, для которой определяется триггер",
+      "В этих таблицах запрещается изменять данные напрямую или выполнять над ними операции языка DDL",
+      "SQL Server автоматически создает таблицы inserted и deleted при запуске триггера",
+      "Для всех триггеров в БД создается общий комплект таблиц inserted и deleted",
+      "После автоматического создания триперных таблиц управление ими передается клиенту",
+      "Содержать записи, которые будут вставлены или удалены по завершении операции с базовой таблицей"
+    ],
+    "correct": [
+      "Структура таблиц inserted и deleted идентична структуре таблиц, для которой определяется триггер",
+      "В этих таблицах запрещается изменять данные напрямую или выполнять над ними операции языка DDL",
+      "SQL Server автоматически создает таблицы inserted и deleted при запуске триггера",
+      "Для всех триггеров в БД создается общий комплект таблиц inserted и deleted"
+    ]
+  },
+  {
+    "id": "76",
+    "type": "text",
+    "image": "./images/13.jfif",
+    "question": "Сколько записей выведет запрос  select avg(score) over() from classes на следующем состоянии источника данных",
+    "correct": "8"
+  },
+  {
+    "id": "77",
+    "type": "text",
+    "image": "./images/13.jfif",
+    "question": "Сколько записей выведет запрос select avg(score) over(partition by class) diff from classes  на следующем состоянии источника данных",
+    "correct": "8"
+  },
+  {
+    "id": "78",
+    "type": "multiple",
+    "question": "Какие из указанных функций относятся к виду оконных?",
+    "options": [
+      "RANK() OVER()",
+      "DENSE_RANK() OVER()",
+      "NTILE(n) OVER()",
+      "SUM() OVER()",
+      "LEAD() OVER()",
+      "LAG() OVER()",
+      "AVG() OVER()",
+      "COUNT() OVER()"
+    ],
+    "correct": [
+      "SUM() OVER()",
+      "LEAD() OVER()",
+      "LAG() OVER()",
+      "AVG() OVER()",
+      "COUNT() OVER()"
+    ]
+  },
+  {
+    "id": "79",
+    "type": "single",
+    "image": "./images/13.jfif",
+    "question": "Какой результат вернет запрос \n with a as \n (select class, count(score) \n from classes \n group by class \n ) \n select * from a",
+    "options": [
+      "1 - 2, 2 - 3, 3 - 1",
+      "1 - 3, 2 - 3, 3 - 2",
+      "Запрос не выолнится из-за ошибки синтаксиса"
+    ],
+    "correct": "Запрос не выолнится из-за ошибки синтаксиса"
+  },
+  {
+    "id": "80",
+    "type": "multiple",
+    "question": "Как реализуется функция реляционного деления в языке SQL",
+    "options": [
+      "С помощью специального оператора DIVIDE BY",
+      "С помощью канотора FORALL",
+      "С помощью агрегатных функций",
+      "С помощью квантора EXIST"
+    ],
+    "correct": ["С помощью канотора FORALL", "С помощью квантора EXIST"]
+  },
+  {
+    "id": "81",
+    "type": "single",
+    "image": "./images/11.jfif",
+    "question": "Сколько записей вернет данный запрос? SELECT * FROM Numbers a FULL JOIN Numbers b on b.id LIKE ‘_a%’",
+    "options": ["3", "9", "7", "6"],
+    "correct": "7"
+  },
+  {
+    "id": "82",
+    "type": "multiple",
+    "question": "В каких фразах SQL-запроса может использоваться выражение CASE?",
+    "options": ["FROM", "SELECT", "WHERE", "HAVING", "GROUP BY", "ORDER BY"],
+    "correct": ["SELECT", "WHERE", "HAVING", "GROUP BY", "ORDER BY"]
+  },
+  {
+    "id": "83",
+    "type": "single",
+    "image": "./images/83.jfif",
+    "question": "Какой результат вернет данный запрос в поле result для записей, в которых score=6",
+    "options": ["6", "NULL", "six", "n/a"],
+    "correct": "NULL"
+  },
+  {
+    "id": "84",
+    "type": "single",
+    "image": "./images/84.jfif",
+    "question": "Какой результат вернет данный запрос в поле result для записей, в которых score=8?",
+    "options": ["Ошибка синтаксиса", "excellent", "NULL", "good"],
+    "correct": "excellent"
+  },
+  {
+    "id": "85",
+    "type": "single",
+    "question": " Оцените работоспособность данного запроса (таблица Numbers – не пустая): SELECT * FROM (SELECT * FROM Numbers a, Numbers b)a",
+    "options": [
+      "Запрос выполнится, но вернет пустой результат",
+      "Запрос не выполнится, так как отсутствует знак ';'",
+      "Запрос корректно выполнится и выведет непустой результат",
+      "Запрос не выполнится из-за неопределенности в именовании полей"
+    ],
+    "correct": "Запрос не выполнится из-за неопределенности в именовании полей"
+  },
+  {
+    "id": "86",
+    "type": "multiple",
+    "image": "./images/86.jfif",
+    "question": "Задание на картинке",
+    "options": [
+      "Создать в таблице Students индекс по столбцу ID",
+      "Создать в таблице Mark ограничение uniqie по столбцу ID",
+      "Создать в таблице Mark внешний ключ для столбца ID, который будет ссылаться на столбец ID таблицы Students",
+      "Создать в таблице Mark индекс по столбцу ID",
+      "Создать в таблице Students индекс по столбцу Student_Name",
+      "Создать в таблице Mark композитный первичный ключ по столбцам Mark , Subject, ID, перечислив их в указанном порядке"
+    ],
+    "correct": [
+      "Создать в таблице Students индекс по столбцу Student_Name",
+      "Создать в таблице Mark индекс по столбцу ID"
     ]
   }
 ]
