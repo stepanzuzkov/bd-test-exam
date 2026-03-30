@@ -359,7 +359,7 @@
   {
     "id": "22",
     "type": "multiple",
-    "image": "./images/21.jfif",
+    "image": "./images/22.jfif",
     "question": "Выберите один или несколько вариантов",
     "options": [
       "SELECT * FROM Book\nWHERE Publisher='Мысль'\nUNION\nSELECT FROM Book WHERE Publisher='Азбука'",
